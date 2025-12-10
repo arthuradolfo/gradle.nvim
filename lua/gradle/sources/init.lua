@@ -74,7 +74,12 @@ local function create_project_from_settings_file(settings_gradle_path)
   local settings_gradle_parent = settings_gradle_file:parent()
   local project_path = settings_gradle_parent:absolute()
   local setting = SettingsParser.parse_file(settings_gradle_file:absolute())
-  local project = Project.new(project_path, setting.project_name, nil, settings_gradle_path)
+  local project_name = setting.project_name
+  if not project_name then
+    local path_parts = Utils.split_path(project_path)
+    project_name = path_parts[#path_parts]
+  end
+  local project = Project.new(project_path, project_name, nil, settings_gradle_path)
   project:set_commands(custom_commands)
   for _, module_name in ipairs(setting.module_names) do
     local build_gradle_name = 'build.gradle'

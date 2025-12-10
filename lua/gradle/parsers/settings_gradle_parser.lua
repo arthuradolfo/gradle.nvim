@@ -17,7 +17,7 @@ SettingGradleParser.parse_file = function(settings_gradle_path)
   with(open(settings_gradle_path), function(reader)
     for line in reader:lines() do
       if not project_name then
-        project_name = string.match(line, project_name_pattern) or project_name
+        project_name = string.match(line, project_name_pattern)
       end
       for modules_match in string.gmatch(line, module_pattern) do
         modules_match = string.gsub(modules_match, "[%'" .. '%"%(%):]', '')
